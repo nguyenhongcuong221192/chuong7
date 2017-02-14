@@ -4,6 +4,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
+
   test "invalid signup information" do
     get signup_path
     assert_no_difference 'User.count' do
@@ -13,8 +14,10 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                          password_confirmation: "bar" } }
     end
     follow_redirect!
-    assert_template 'users/show'
+    assert_template 'users/new'
+    assert_select 'div#<CSS id for error explanation>'
+    assert_select 'div.<CSS class for field with error>'
     assert_not flash.FILL_IN
-
   end
+
 end
